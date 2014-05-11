@@ -1,0 +1,12 @@
+temp <- tempfile()
+download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",temp)
+con<-unz(temp,"household_power_consumption.txt")
+dateDownloaded<-date()
+powerData<-read.table(con,sep=";",header=TRUE)
+subdata<-subset(powerData, Date=="1/2/2007" | Date=="2/2/2007")
+Gap<-subdata[,3]
+newGap<-sapply(Gap,as.numeric)
+newGap2<-t(t(newGap)/1000)
+hist(newGap2, main="Global Active Power",xlab = "Global Active Power (kilowatts)", col = "2")
+dev.copy(png, file = "plot1.png")
+dev.off()
